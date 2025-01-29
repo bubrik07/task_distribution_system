@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Executor(models.Model):
-    class Meta:
-        db_table = "executor"
+    # class Meta:
+    #     db_table = "executor"
 
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, unique=True)
@@ -14,8 +14,8 @@ class Executor(models.Model):
 
 
 class TaskStatus(models.Model):
-    class Meta:
-        db_table = "task_status"
+    # class Meta:
+    #     db_table = "task_status"
 
     id = models.AutoField(primary_key=True)
     code = models.CharField(max_length=20, unique=True)
@@ -26,8 +26,8 @@ class TaskStatus(models.Model):
 
 
 class TaskPriority(models.Model):
-    class Meta:
-        db_table = "task_priority"
+    # class Meta:
+    #     db_table = "task_priority"
 
     id = models.AutoField(primary_key=True)
     rank = models.PositiveIntegerField(unique=True)
@@ -40,7 +40,7 @@ class TaskPriority(models.Model):
 
 class Task(models.Model):
     class Meta:
-        db_table = "task"
+        # db_table = "task"
         ordering = ['priority', 'created_at']
 
     # STATUS_CHOICES = [
