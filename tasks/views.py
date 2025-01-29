@@ -3,8 +3,24 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Task
-from .serializers import TaskSerializer
+from .models import Task, TaskStatus, TaskPriority
+from .serializers import TaskSerializer, TaskStatusSerializer, TaskPrioritySerializer
+
+
+@api_view(['GET'])
+def get_task_statuses(request):
+    if request.method == 'GET':
+        task_statuses = TaskStatus.objects.all()
+        serializer = TaskStatusSerializer(task_statuses, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_task_priorities(request):
+    if request.method == 'GET':
+        task_priorities = TaskPriority.objects.all()
+        serializer = TaskPrioritySerializer(task_priorities, many=True)
+        return Response(serializer.data)
 
 
 @api_view(['POST'])
