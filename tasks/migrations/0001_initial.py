@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='Executor',
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=255, unique=True)),
+                ('title', models.CharField(max_length=255, unique=True)),
                 ('max_tasks', models.PositiveIntegerField()),
             ],
         ),
