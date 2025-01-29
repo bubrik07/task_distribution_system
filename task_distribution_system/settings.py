@@ -32,14 +32,14 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    "django.contrib.auth",          # Модуль аутентифікації
-    "django.contrib.contenttypes",  # Для роботи з типами контенту
-    "django.contrib.sessions",      # Для роботи з сесіями
-    "django.contrib.messages",      # Для повідомлень користувачу
-    "django.contrib.staticfiles",   # Для обробки статичних файлів
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
     "rest_framework",
-    "tasks",                        # Твій додаток для завдань
-    "monitoring",                   # Твій додаток для моніторингу
+    "tasks",
+    "monitoring",
 ]
 
 MIDDLEWARE = [
@@ -88,8 +88,8 @@ DATABASES = {
         'NAME': 'task_db',
         'USER': 'task_user',
         'PASSWORD': 'task_password',
-        'HOST': 'localhost',  # Ім'я сервісу для бази даних у docker-compose.yml
-        'PORT': '5432',  # Стандартний порт для PostgreSQL
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
