@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: task_db
+      POSTGRES_USER: task_user
+      POSTGRES_PASSWORD: task_password
+
+  redis:
+    image: redis:6
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    volumes:
+      - .:/task_distribution_system
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["celery", "-A", "task_distribution_system", "worker", "--loglevel=info"]
+    volumes:
+      - .:/task_distribution_system
+    depends_on:
+      - redis
+      - db
+
+volumes:
+  postgres_data:
