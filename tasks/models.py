@@ -18,8 +18,8 @@ class TaskStatus(models.Model):
         db_table = "task_status"
 
     id = models.AutoField(primary_key=True)
-    code = models.CharField(max_length=255, unique=True)
-    title = models.CharField(max_length=255)
+    code = models.CharField(max_length=20, unique=True)
+    title = models.CharField(max_length=20)
 
     def __str__(self):
         return self.title

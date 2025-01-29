@@ -32,8 +32,8 @@ class Migration(migrations.Migration):
             name='TaskStatus',
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('code', models.CharField(max_length=255, unique=True)),
-                ('title', models.CharField(max_length=255)),
+                ('code', models.CharField(max_length=20, unique=True)),
+                ('title', models.CharField(max_length=20)),
             ],
         ),
         migrations.CreateModel(
