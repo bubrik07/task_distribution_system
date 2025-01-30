@@ -14,7 +14,7 @@ class TaskStatusSerializer(serializers.ModelSerializer):
         fields = ['id', 'code', 'title']
 
 
-class ExecutorSerializer(serializers.ModelSerializer):
+class BaseExecutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Executor
         fields = ['id', 'title', 'max_tasks']
@@ -29,11 +29,27 @@ class TaskSerializer(serializers.ModelSerializer):
     # Відповідь буде серіалізувати повні об'єкти
     priority_details = TaskPrioritySerializer(source='priority', read_only=True)
     status_details = TaskStatusSerializer(source='status', read_only=True)
-    executor_details = ExecutorSerializer(source='executor', read_only=True)
+    executor_details = BaseExecutorSerializer(source='executor', read_only=True)
 
     class Meta:
         model = Task
         fields = ['id', 'description', 'priority', 'status', 'created_at', 'completed_at', 'executor', 'priority_details', 'status_details', 'executor_details']
+
+
+class TaskSerializerWithoutExecutorDetails(serializers.ModelSerializer):
+    priority_details = TaskPrioritySerializer(source='priority', read_only=True)
+    status_details = TaskStatusSerializer(source='status', read_only=True)
+
+    class Meta:
+        model = Task
+        fields = ['id', 'description', 'priority', 'status', 'created_at', 'completed_at', 'priority_details', 'status_details']
+
+
+class ExecutorSerializer(BaseExecutorSerializer):
+    tasks = TaskSerializerWithoutExecutorDetails(many=True, read_only=True)
+
+    class Meta(BaseExecutorSerializer.Meta):
+        fields = BaseExecutorSerializer.Meta.fields + ['tasks']
 
 
 class TaskUpdateSerializer(serializers.ModelSerializer):
