@@ -17,11 +17,11 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'task_distribution_system.settin
 
 app = Celery(
     'task_distribution_system',
-    broker='redis://localhost:6379/0',
+    broker='redis://redis:6379/0',
 )
 
 app.conf.update(
-    result_backend='redis://localhost:6379/0',  # For saving results
+    result_backend='redis://redis:6379/0',  # For saving results
     accept_content=['json'],                    # Only JSON
     task_serializer='json',                     # Task serializer format
     timezone='UTC',                             # Timezone
