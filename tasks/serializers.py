@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Task, Executor, TaskStatus, TaskPriority
+from tasks.models import Task, Executor, TaskStatus, TaskPriority
 
 
 class TaskPrioritySerializer(serializers.ModelSerializer):

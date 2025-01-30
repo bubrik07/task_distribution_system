@@ -1,6 +1,6 @@
 from celery import shared_task
-from .models import Task, Executor
-from django.db.models import F
+from tasks.models import Task, Executor, TaskStatus
+from django.db.models import QuerySet
 
 
 @shared_task

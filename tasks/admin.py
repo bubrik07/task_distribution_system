@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Task, TaskStatus, TaskPriority, Executor
+from tasks.models import Task, TaskStatus, TaskPriority, Executor
 
 admin.site.register(TaskStatus)
 admin.site.register(TaskPriority)

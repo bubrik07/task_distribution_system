@@ -3,8 +3,8 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Task, TaskStatus, TaskPriority, Executor
-from .serializers import (
+from tasks.models import Task, TaskStatus, TaskPriority, Executor
+from tasks.serializers import (
     TaskSerializer,
     TaskStatusSerializer,
     TaskPrioritySerializer,
