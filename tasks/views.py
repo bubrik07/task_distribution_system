@@ -3,6 +3,8 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from tasks.models import Task, TaskStatus, TaskPriority, Executor
 from tasks.serializers import (
     TaskSerializer,
@@ -15,6 +17,11 @@ from tasks.serializers import (
 
 
 # Task statuses & priorities -------------------------------------------------------------------------------------------
+@swagger_auto_schema(
+    operation_description="Retrieve all task statuses",
+    responses={200: TaskStatusSerializer(many=True)},
+    methods=['GET'],
+)
 @api_view(['GET'])
 def get_task_statuses(request):
     if request.method == 'GET':
@@ -23,6 +30,11 @@ def get_task_statuses(request):
         return Response(serializer.data)
 
 
+@swagger_auto_schema(
+    operation_description="Retrieve all task priorities",
+    responses={200: TaskPrioritySerializer(many=True)},
+    methods=['GET'],
+)
 @api_view(['GET'])
 def get_task_priorities(request):
     if request.method == 'GET':
@@ -32,6 +44,12 @@ def get_task_priorities(request):
 
 
 # Tasks ----------------------------------------------------------------------------------------------------------------
+@swagger_auto_schema(
+    operation_description="Create a new task",
+    request_body=TaskSerializer,
+    responses={201: TaskSerializer, 400: 'Invalid data'},
+    methods=['POST'],
+)
 @api_view(['POST'])
 def create_task(request):
     if request.method == 'POST':
@@ -42,6 +60,11 @@ def create_task(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    operation_description="Retrieve a task by its ID",
+    responses={200: TaskSerializer, 404: 'Task not found'},
+    methods=['GET'],
+)
 @api_view(['GET'])
 def get_task(request, pk):
     try:
@@ -57,6 +80,11 @@ def get_task(request, pk):
         return Response(serializer.data)
 
 
+@swagger_auto_schema(
+    operation_description="Retrieve all tasks",
+    responses={200: TaskSerializer(many=True)},
+    methods=['GET'],
+)
 @api_view(['GET'])
 def get_tasks(request):
     if request.method == 'GET':
@@ -65,6 +93,12 @@ def get_tasks(request):
         return Response(serializer.data)
 
 
+@swagger_auto_schema(
+    operation_description="Update an existing task",
+    request_body=TaskUpdateSerializer,
+    responses={200: TaskSerializer, 404: 'Task not found', 400: 'Invalid data'},
+    methods=['PATCH'],
+)
 @api_view(['PATCH'])
 def update_task(request, pk):
     try:
@@ -84,6 +118,12 @@ def update_task(request, pk):
 
 
 # Executors ------------------------------------------------------------------------------------------------------------
+@swagger_auto_schema(
+    operation_description="Create a new executor",
+    request_body=ExecutorSerializer,
+    responses={201: ExecutorSerializer, 400: 'Invalid data'},
+    methods=['POST'],
+)
 @api_view(['POST'])
 def create_executor(request):
     if request.method == 'POST':
@@ -94,6 +134,11 @@ def create_executor(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    operation_description="Retrieve an executor by its ID",
+    responses={200: ExecutorSerializer, 404: 'Executor not found'},
+    methods=['GET'],
+)
 @api_view(['GET'])
 def get_executor(request, pk):
     try:
@@ -109,6 +154,11 @@ def get_executor(request, pk):
         return Response(serializer.data)
 
 
+@swagger_auto_schema(
+    operation_description="Retrieve all executors",
+    responses={200: ExecutorSerializer(many=True)},
+    methods=['GET'],
+)
 @api_view(['GET'])
 def get_executors(request):
     if request.method == 'GET':
@@ -117,6 +167,12 @@ def get_executors(request):
         return Response(serializer.data)
 
 
+@swagger_auto_schema(
+    operation_description="Update an existing executor",
+    request_body=ExecutorUpdateSerializer,
+    responses={200: ExecutorSerializer, 404: 'Executor not found', 400: 'Invalid data'},
+    methods=['PATCH'],
+)
 @api_view(['PATCH'])
 def update_executor(request, pk):
     try:
