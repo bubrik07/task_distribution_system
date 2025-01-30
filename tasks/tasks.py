@@ -54,5 +54,5 @@ def distribute_tasks():
         # Reduce the number of executors to 2 if there are fewer than 5 tasks in the queue
         if Executor.objects.count() > 2:
             least_loaded_executor = Executor.objects.annotate(task_count=Count('tasks')).order_by('task_count').first()
-            if least_loaded_executor:
+            if least_loaded_executor and least_loaded_executor.task_count == 0:  # noqa
                 least_loaded_executor.delete()
