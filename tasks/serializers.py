@@ -24,7 +24,7 @@ class TaskSerializer(serializers.ModelSerializer):
     # Приймаємо тільки ID в запиті (через PrimaryKeyRelatedField)
     priority = serializers.PrimaryKeyRelatedField(queryset=TaskPriority.objects.all())
     status = serializers.PrimaryKeyRelatedField(queryset=TaskStatus.objects.all())
-    executor = serializers.PrimaryKeyRelatedField(queryset=Executor.objects.all())
+    executor = serializers.PrimaryKeyRelatedField(queryset=Executor.objects.all(), required=False)
 
     # Відповідь буде серіалізувати повні об'єкти
     priority_details = TaskPrioritySerializer(source='priority', read_only=True)
