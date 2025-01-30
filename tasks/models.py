@@ -9,10 +9,10 @@ class Executor(models.Model):
     title = models.CharField(max_length=255, unique=True)
     max_tasks = models.PositiveIntegerField()
 
-    class Meta:
-        indexes = [
-            models.Index(fields=['title']),
-        ]
+    # class Meta:
+    #     indexes = [
+    #         models.Index(fields=['title']),
+    #     ]
 
     def __str__(self):
         return (
