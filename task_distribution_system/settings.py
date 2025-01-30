@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -113,6 +114,25 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
+    },
+}
+
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+# Celery results store
+CELERY_RESULT_EXTENDED = True
+
+
+CELERY_BEAT_SCHEDULE = {
+    'distribute-tasks-every-10-seconds': {
+        'task': 'tasks.tasks.distribute_tasks',
+        'schedule': crontab(minute='*', second='*/10'),  # Every 10 seconds
     },
 }
 
