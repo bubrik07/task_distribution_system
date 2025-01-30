@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "drf_yasg",
+    "django_celery_beat",
     "tasks",
     "monitoring",
 ]
@@ -132,7 +134,7 @@ CELERY_RESULT_EXTENDED = True
 CELERY_BEAT_SCHEDULE = {
     'distribute-tasks-every-10-seconds': {
         'task': 'tasks.tasks.distribute_tasks',
-        'schedule': crontab(minute='*', second='*/10'),  # Every 10 seconds
+        'schedule': timedelta(seconds=10),  # Every 10 seconds
     },
 }
 
