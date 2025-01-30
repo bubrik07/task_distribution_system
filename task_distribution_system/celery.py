@@ -27,9 +27,9 @@ app.conf.update(
     timezone='UTC',                             # Timezone
     result_extended=True,                       # More info in results
     beat_schedule={                             # Schedule for periodic tasks
-        'distribute-tasks-every-30-seconds': {
+        'distribute-tasks-every-10-seconds': {
             'task': 'task_distribution_system.tasks.distribute_tasks',  # Path to distribute_tasks
-            'schedule': 30.0,  # Every 30 seconds
+            'schedule': 10.0,  # Every 10 seconds
         },
     },
 )
