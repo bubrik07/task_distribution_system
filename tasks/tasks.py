@@ -1,3 +1,4 @@
+from uuid import uuid4
 from celery import shared_task
 from tasks.models import Task, Executor, TaskStatus
 from django.db.models import QuerySet, F, Count
@@ -38,8 +39,15 @@ def distribute_tasks():
 
     # Check if the number of tasks in the queue exceeds 10
     if pending_task_count > 10:
+        # Generate a unique name for the new executor
+        unique_title = f"Executor_{uuid4().hex[:16]}"
+
+        # Ensure the unique_title is not already taken
+        while Executor.objects.filter(title=unique_title).exists():
+            unique_title = f"Executor_{uuid4().hex[:16]}"  # Regenerate the name if it already exists
+
         # Add a new executor if there are more than 10 tasks in the queue
-        Executor.objects.create(title="New Executor", max_tasks=5)
+        Executor.objects.create(title=unique_title, max_tasks=2)
 
     # Check if the number of tasks in the queue is less than 5
     elif pending_task_count < 5:
