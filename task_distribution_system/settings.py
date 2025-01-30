@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'task_db',
         'USER': 'task_user',
         'PASSWORD': 'task_password',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
         'OPTIONS': {
             'options': '-c log_statement=all',
@@ -109,13 +109,13 @@ LOGGING = {
             'class': 'logging.StreamHandler',
         },
     },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-    },
+    # 'loggers': {
+    #     'django.db.backends': {
+    #         'level': 'DEBUG',
+    #         'handlers': ['console'],
+    #         'propagate': False,
+    #     },
+    # },
 }
 
 
