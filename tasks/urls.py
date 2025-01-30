@@ -8,8 +8,13 @@ urlpatterns = [
 
     # Tasks
     path('tasks/', views.create_task, name='create_task'),
-    path('tasks/list/', views.get_tasks, name='get_tasks'),
     path('tasks/<int:pk>/', views.get_task, name='get_task'),
+    path('tasks/list', views.get_tasks, name='get_tasks'),
     path('tasks/<int:pk>/update/', views.update_task, name='update_task'),
-    path('tasks/<int:pk>/delete/', views.delete_task, name='delete_task'),
+
+    # Executors
+    path('executors/', views.create_executor, name='create_executor'),
+    path('executors/<int:pk>/', views.get_executor, name='get_executor'),
+    path('executors/list', views.get_executors, name='get_executors'),
+    path('executors/<int:pk>/update/', views.update_executor, name='update_executor'),
 ]

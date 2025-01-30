@@ -21,51 +21,28 @@ class ExecutorSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    priority = TaskPrioritySerializer()
-    status = TaskStatusSerializer()
-    executor = ExecutorSerializer()
+    # Приймаємо тільки ID в запиті (через PrimaryKeyRelatedField)
+    priority = serializers.PrimaryKeyRelatedField(queryset=TaskPriority.objects.all())
+    status = serializers.PrimaryKeyRelatedField(queryset=TaskStatus.objects.all())
+    executor = serializers.PrimaryKeyRelatedField(queryset=Executor.objects.all())
+
+    # Відповідь буде серіалізувати повні об'єкти
+    priority_details = TaskPrioritySerializer(source='priority', read_only=True)
+    status_details = TaskStatusSerializer(source='status', read_only=True)
+    executor_details = ExecutorSerializer(source='executor', read_only=True)
 
     class Meta:
         model = Task
-        fields = ['id', 'description', 'priority', 'status', 'created_at', 'completed_at', 'executor']
+        fields = ['id', 'description', 'priority', 'status', 'created_at', 'completed_at', 'executor', 'priority_details', 'status_details', 'executor_details']
 
-    def create(self, validated_data):
-        priority_data = validated_data.pop('priority')
-        status_data = validated_data.pop('status')
-        executor_data = validated_data.pop('executor')
 
-        priority = TaskPriority.objects.create(**priority_data)
-        status = TaskStatus.objects.create(**status_data)
-        executor = Executor.objects.create(**executor_data)
+class TaskUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['status']  # Only status can be updated
 
-        task = Task.objects.create(priority=priority, status=status, executor=executor, **validated_data)
-        return task
 
-    def update(self, instance, validated_data):
-        priority_data = validated_data.pop('priority', None)
-        status_data = validated_data.pop('status', None)
-        executor_data = validated_data.pop('executor', None)
-
-        if priority_data:
-            priority = instance.priority
-            for attr, value in priority_data.items():
-                setattr(priority, attr, value)
-            priority.save()
-
-        if status_data:
-            status = instance.status
-            for attr, value in status_data.items():
-                setattr(status, attr, value)
-            status.save()
-
-        if executor_data:
-            executor = instance.executor
-            for attr, value in executor_data.items():
-                setattr(executor, attr, value)
-            executor.save()
-
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-
-        return instance
+class ExecutorUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Executor
+        fields = ['max_tasks']  # Only max_tasks can be updated
