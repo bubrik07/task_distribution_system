@@ -19,6 +19,10 @@ class Migration(migrations.Migration):
                 ('max_tasks', models.PositiveIntegerField()),
             ],
         ),
+        migrations.AddIndex(
+            model_name='tasks_executor',
+            index=models.Index(fields=['title']),
+        ),
         migrations.CreateModel(
             name='TaskPriority',
             fields=[
