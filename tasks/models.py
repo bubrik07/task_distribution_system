@@ -10,11 +10,12 @@ class Executor(models.Model):
     max_tasks = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.title
-
-    @property
-    def task_count(self):
-        return self.tasks.count()
+        return (
+            f"["
+            f"Title: {self.title} | "
+            f"Max tasks: {self.max_tasks}"
+            f"]"
+        )
 
 
 class TaskStatus(models.Model):
@@ -26,7 +27,12 @@ class TaskStatus(models.Model):
     title = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.title
+        return (
+            f"["
+            f"ID: {self.id} | "
+            f"Code: {self.code}"
+            f"]"
+        )
 
 
 class TaskPriority(models.Model):
@@ -39,7 +45,13 @@ class TaskPriority(models.Model):
     title = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.title
+        return (
+            f"["
+            f"ID: {self.id} | "
+            f"Rank: {self.rank} | "
+            f"Code: {self.code}"
+            f"]"
+        )
 
 
 class Task(models.Model):
@@ -72,7 +84,14 @@ class Task(models.Model):
     executor = models.ForeignKey(Executor, related_name='tasks', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return f"Task {self.id} - {self.status} - {self.description}"
+        return (
+            f"["
+            f"ID: {self.id} | "
+            f"Status: {self.status.code} | "
+            f"Priority: {self.priority.code}] | "
+            f"Executor: {self.executor.title if self.executor else None}"
+            f"]"
+        )
 
     def is_completed(self):
         return self.status == 'completed'
