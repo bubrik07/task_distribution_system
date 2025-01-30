@@ -19,7 +19,7 @@ python manage.py migrate --noinput
 
 # Starting the server or celery worker
 if [ "$1" = 'celery' ]; then
-  exec celery -A task_distribution worker --loglevel=info
+  exec celery -A task_distribution_system worker --loglevel=info
 else
   exec python manage.py runserver 0.0.0.0:8000
 fi

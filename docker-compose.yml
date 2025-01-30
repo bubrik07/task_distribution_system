@@ -9,8 +9,6 @@ services:
     depends_on:
       - db
       - redis
-    env_file:
-      - .env
     volumes:
       - .:/task_distribution_system
     ports:
@@ -18,7 +16,7 @@ services:
     command: [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
 
   db:
-    image: postgres:15
+    image: postgres:13
     container_name: task_distribution_system_db
     restart: always
     environment:
@@ -46,8 +44,6 @@ services:
     depends_on:
       - db
       - redis
-    env_file:
-      - .env
     volumes:
       - .:/task_distribution_system
     command: ["celery", "-A", "task_distribution_system", "worker", "--loglevel=info"]
@@ -62,8 +58,6 @@ services:
       - db
       - redis
       - celery
-    env_file:
-      - .env
     volumes:
       - .:/task_distribution_system
     command: [ "celery", "-A", "task_distribution_system", "beat", "--loglevel=info" ]
