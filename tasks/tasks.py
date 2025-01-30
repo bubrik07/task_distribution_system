@@ -12,6 +12,7 @@ def distribute_tasks():
     pending_tasks: QuerySet[Task] = Task.objects.filter(  # noqa
         status=pending_status
     ).order_by('-priority').select_related('status', 'priority', 'executor')
+    pending_task_count = pending_tasks.count()
 
     # Get all executors, sorted by the number of tasks they have
     executors: QuerySet[Executor] = Executor.objects.annotate(  # noqa
@@ -36,12 +37,12 @@ def distribute_tasks():
             break
 
     # Check if the number of tasks in the queue exceeds 10
-    if pending_tasks.count() > 10:
+    if pending_task_count > 10:
         # Add a new executor if there are more than 10 tasks in the queue
         Executor.objects.create(title="New Executor", max_tasks=5)
 
     # Check if the number of tasks in the queue is less than 5
-    elif pending_tasks.count() < 5:
+    elif pending_task_count < 5:
         # Reduce the number of executors to 2 if there are fewer than 5 tasks in the queue
         if Executor.objects.count() > 2:
             least_loaded_executor = Executor.objects.annotate(task_count=Count('tasks')).order_by('task_count').first()
