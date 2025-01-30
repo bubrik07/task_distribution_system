@@ -28,7 +28,7 @@ app.conf.update(
     result_extended=True,                       # More info in results
     beat_schedule={                             # Schedule for periodic tasks
         'distribute-tasks-every-10-seconds': {
-            'task': 'task_distribution_system.tasks.tasks.distribute_tasks',  # Path to distribute_tasks
+            'task': 'tasks.tasks.distribute_tasks',  # Path to distribute_tasks
             'schedule': 10.0,  # Every 10 seconds
         },
     },

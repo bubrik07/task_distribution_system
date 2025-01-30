@@ -132,7 +132,7 @@ CELERY_RESULT_EXTENDED = True
 
 CELERY_BEAT_SCHEDULE = {
     'distribute-tasks-every-10-seconds': {
-        'task': 'task_distribution_system.tasks.tasks.distribute_tasks',
+        'task': 'tasks.tasks.distribute_tasks',
         'schedule': timedelta(seconds=10),  # Every 10 seconds
     },
 }
