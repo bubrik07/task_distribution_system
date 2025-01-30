@@ -6,6 +6,7 @@ celery[redis]
 gunicorn
 python-decouple
 drf-yasg
+django-celery-beat
 django-cors-headers
 django-environ
 whitenoise
