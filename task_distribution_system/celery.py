@@ -2,6 +2,16 @@ from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
 
+import logging
+
+# Logger preferences for Celery
+logger = logging.getLogger('celery')
+logger.setLevel(logging.INFO)
+
+handler = logging.StreamHandler()
+handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+logger.addHandler(handler)
+
 # Set default Django settings module for 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'task_distribution_system.settings')
 
