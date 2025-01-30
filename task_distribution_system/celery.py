@@ -26,10 +26,10 @@ app.conf.update(
     task_serializer='json',                     # Task serializer format
     timezone='UTC',                             # Timezone
     result_extended=True,                       # More info in results
-    beat_schedule={  # Schedule for periodic tasks
+    beat_schedule={                             # Schedule for periodic tasks
         'distribute-tasks-every-30-seconds': {
-            'task': 'your_app_name.tasks.distribute_tasks',  # Шлях до твоєї задачі
-            'schedule': 30.0,  # Запуск кожні 10 секунд
+            'task': 'task_distribution_system.tasks.distribute_tasks',  # Path to distribute_tasks
+            'schedule': 30.0,  # Every 30 seconds
         },
     },
 )
