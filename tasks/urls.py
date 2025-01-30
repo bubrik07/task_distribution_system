@@ -17,4 +17,8 @@ urlpatterns = [
     path('executors/<int:pk>/', views.get_executor, name='get_executor'),
     path('executors/list', views.get_executors, name='get_executors'),
     path('executors/<int:pk>/update/', views.update_executor, name='update_executor'),
+
+    # Monitoring
+    path('monitoring/tasks/', views.get_task_statistics, name='get_task_statistics'),
+
 ]

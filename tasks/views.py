@@ -189,3 +189,61 @@ def update_executor(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Monitoring -----------------------------------------------------------------------------------------------------------
+@swagger_auto_schema(
+    operation_description="Retrieve task statistics including total count and task status distribution",
+    responses={
+        200: openapi.Response(
+            description='Task Statistics',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'total_count': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'task_statuses': openapi.Schema(
+                        type=openapi.TYPE_ARRAY,
+                        items=openapi.Schema(
+                            type=openapi.TYPE_OBJECT,
+                            properties={
+                                'status': openapi.Schema(
+                                    type=openapi.TYPE_OBJECT,
+                                    properties={
+                                        'id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                                        'code': openapi.Schema(type=openapi.TYPE_STRING),
+                                        'title': openapi.Schema(type=openapi.TYPE_STRING),
+                                    }
+                                ),
+                                'count': openapi.Schema(type=openapi.TYPE_INTEGER),
+                            }
+                        )
+                    ),
+                }
+            )
+        ),
+    },
+    methods=['GET'],
+)
+@api_view(['GET'])
+def get_task_statistics(request):
+    # Get total count of tasks
+    total_count = Task.objects.count()
+
+    all_task_statuses = TaskStatus.objects.all()
+    task_statuses = []
+
+    for task_status in all_task_statuses:
+        count = Task.objects.filter(status=task_status).count()
+        task_statuses.append({
+            'status': {
+                'id': task_status.id,
+                'code': task_status.code,
+                'title': task_status.title,
+            },
+            'count': count
+        })
+
+    return Response({
+        'total_count': total_count,
+        'task_statuses': task_statuses
+    })
