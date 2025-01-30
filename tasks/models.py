@@ -12,6 +12,10 @@ class Executor(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def task_count(self):
+        return self.tasks.count()
+
 
 class TaskStatus(models.Model):
     # class Meta:
