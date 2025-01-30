@@ -120,8 +120,8 @@ LOGGING = {
 
 
 # Celery settings
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
@@ -132,7 +132,7 @@ CELERY_RESULT_EXTENDED = True
 
 CELERY_BEAT_SCHEDULE = {
     'distribute-tasks-every-10-seconds': {
-        'task': 'tasks.tasks.distribute_tasks',
+        'task': 'task_distribution_system.tasks.distribute_tasks',
         'schedule': timedelta(seconds=10),  # Every 10 seconds
     },
 }

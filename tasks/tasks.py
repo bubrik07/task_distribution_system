@@ -1,11 +1,15 @@
 from uuid import uuid4
 from celery import shared_task
+
+from task_distribution_system.celery import logger
 from tasks.models import Task, Executor, TaskStatus
 from django.db.models import QuerySet, F, Count
 
 
 @shared_task
 def distribute_tasks():
+    logger.info("Distributing tasks...")
+
     # Get pending status
     pending_status: TaskStatus | None = TaskStatus.objects.get(code='pending')
 
